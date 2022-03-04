@@ -1,4 +1,5 @@
 const { count } = require("console")
+const { send } = require("process")
 const authorModel = require("../models/authorModel")
 const bookModel= require("../models/bookModel")
 const publisherModel = require("../models/publisherModel")
@@ -31,6 +32,27 @@ const getBooks= async function (req, res) {
     res.send({data: books})
 }
 
+const changeHover = async function(req,res){
+    const findData = await publisherModel.find({name:{$in:['Penguin','HarperCollins']}})
+    const ids = findData.map((p)=>p._id)
+     await bookModel.updateMany({publisher:{$in:ids}},{isHardCover:true},{new:true})
+     const change = await bookModel.find({publisher:ids})
+    res.send({changeData:change}) }
 
+    const upadatePrice = async function(req,res){
+        const findData = await authorModel.find({rating:{$gt:3.5}})
+        const ids = findData.map((p)=>p._id)
+        
+
+        await bookModel.updateMany({author:{$in:ids}},{$inc:{price:10}},{new:true})
+        const changeprice =await bookModel.find({author:ids})
+
+
+        res.send({msg:changeprice})
+
+    }
+    
 module.exports.createBook= createBook
 module.exports.getBooks= getBooks
+module.exports.changeHover= changeHover
+module.exports.upadatePrice = upadatePrice

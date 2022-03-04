@@ -25,9 +25,15 @@ router.get("/createBook", bookController.createBook )
 
 router.get("/getBooks", bookController.getBooks)
 
+// a) Add a new boolean attribute in book schema called isHardCover with a default 
+// false value. For the books published by 'Penguin' and 'HarperCollins', update this key to true.
 
-// router.get("/getBooksData", bookController.getBooksData)
+router.put("/udatehover", bookController.changeHover)
 
-// router.get("/getBooksWithAuthorDetails", bookController.getBooksWithAuthorDetails)
+// b) For the books written by authors having a rating greater than 3.5,
+//  update the books price by 10 (For eg if old price for such a book is 50, new will be 60) 
+
+
+router.put("/changeprice", bookController.upadatePrice)
 
 module.exports = router;
