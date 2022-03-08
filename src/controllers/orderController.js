@@ -14,23 +14,29 @@ const createPurchase = async function(req,res){
     if(!productsId) res.send('please provide product id')
     const productDetail = await productModel.findById(productsId)
     if(!productDetail) res.send('no product is found with these id')
+    
 
     const saveIsFree = await userModel.findById(usersId)
     const checkingSubscribtion =saveIsFree.isFreeAppUser
     if(checkingSubscribtion==true){
-     await orderModel.updateMany({userId:{$in:usersId}},{$inc:{amount:-amount}},{upsert:true})
+     data.amount = 0
+     data.isFreeAppUser=true
+
     }
     else{
         const amountofProduct = await productModel.findById(productsId)
-        const takingPrice = amountofProduct.prices
-        await orderModel.updateMany({productId:{$in:productsId}},{$inc:{amount:takingPrice}},{upsert:true})
-        const Data = await userModel.findById(usersId)
-        const balances = data.balance
-        if(balances<takingPrice) res.send('insficent amount')
-        else await userModel.findByIdAndUpdate({usersId},{$inc:{balance:-takingPrice}},{new:true})
-
-        const cleardata = await orderModel.findById(usersId)
-        res.send({orderList:cleardata})
+        const takingPrice = amountofProduct.prices   // product price store here
+        const u_balance = await userModel.findById(usersId)
+        const balances = u_balance.balance     // user balance store here
+        if(takingPrice>balances){
+            res.send('insufficent amount')
+        }
+        else{
+            data.amount = takingPrice
+            await userModel.findByIdAndUpdate({_id:usersId},{$inc:{balance:-takingPrice}},{new:true})
+        }
+        const cleardata = await orderModel.create(data)
+        res.send({orderList:data})
 
     }
 
