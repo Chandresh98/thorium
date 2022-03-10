@@ -19,17 +19,17 @@ router.post("/login", userController.loginUser)
 //  Check that request must contain **x-auth-token** header. If absent, return a suitable error.
 // If present, check that the token is valid.
 //The userId is sent by front end
-router.get("/users/:userId", autho.auth, userController.getUserData)
+router.get("/users/:userId", autho.authenticate , autho.authorise, userController.getUserData)
 
 
 // Write a PUT api /users/<userId> to update user details. Pass the userId as path param 
 // in the url and update the attributes received in the request body. Check that request must 
 // contain x-auth-token header. If absent, return a suitable error.
-router.put("/users/:userId",autho.auth, userController.updateUser)
+router.put("/users/:userId",autho.authenticate ,autho.authorise, userController.updateUser)
 
 // Write a DELETE api /users/<userId> that takes the userId in the path params and marks 
 // the isDeleted attribute for a user as true. Check that request must contain x-auth-token header.
 //  If absent, return a suitable error.
-router.delete("/users/:userId", autho.auth,userController.deleteUserData)
+router.delete("/users/:userId", autho.authenticate ,autho.authorise,userController.deleteUserData)
 
 module.exports = router;
