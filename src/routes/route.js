@@ -14,9 +14,19 @@ router.get("/test-me", function (req, res) {
 
 router.post("/createBook", BookController.createBook  )
 
+router.get("/getBookByAuthor", BookController.getBooksData)
 
+router.post("/updatePorifile" , BookController.updateBooks)
 
+router.get("deleteAuthor" , BookController.deleteBooks )
 
+router.get("/totalSalesPerAuthor", BookController.totalSalesPerAuthor)
+
+router.post("/basicCode" , UserController.basicCode)
+
+router.post("/createUser" , UserController.createUser)
+
+router.get("/getUsersData" , UserController.getUsersData)
 // router.post("/createUser", UserController.createUser  )
 // router.get("/getUsersData", UserController.getUsersData)
 
@@ -43,19 +53,6 @@ router.post("/createBook", BookController.createBook  )
 
 // router.get('/termsAndConditions',  UserController.termsAndConditions)
 // router.get('/register',  UserController.register)
-
-
-
-
-
-router.get("/basicRoute", commonMW.mid1, commonMW.mid2, commonMW.mid3, commonMW.mid4, UserController.basicCode)
-
-
-
-// router.get("/basicRoute2", commonMW.mid1, UserController.basicCode2)
-// router.get("/basicRoute3", commonMW.mid2, UserController.basicCode3)
-// router.get("/basicRoute4", commonMW.mid1, commonMW.mid4, UserController.basicCode4)
-
 
 
 
