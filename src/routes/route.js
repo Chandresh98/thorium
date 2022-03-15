@@ -19,7 +19,7 @@ router.put("/blogs/:blogId",middleWere.authenticate,middleWere.authorise, blogsC
 
 router.delete("/blogs/:blogId",middleWere.authenticate,middleWere.authorise ,blogsController.deleteBlog) // delete blog by using blogid in params 
 
-router.delete("/blogs",middleWere.authenticate, middleWere.nuas, blogsController.deleteByQueryParam) // delete blog by using quary
+router.delete("/blogs",middleWere.authenticate, middleWere.authorise1, blogsController.deleteByQueryParam) // delete blog by using quary
 
 // phase 2
 
