@@ -6,7 +6,7 @@ const { author } = require("./authorController");
 
 const blogs = async function (req, res) {
   try {
-    let data = req.body;
+    let data = req.body;;
     let authorId = data.authorId
     const author_details = await authorModel.findById(authorId)
     if (!author_details) {
@@ -29,18 +29,16 @@ const blogs = async function (req, res) {
 const getBlog = async function (req, res) {
   try {
     const a_id = req.query.authorId
-    const authorDetails = await authorModel.findById({ _id: a_id })
+    const authorDetails = await authorModel.findOne({ _id: a_id })
     if (!authorDetails) res.status(400).send({ msg: "author not found" })
     const c_details = req.query.category
     const tags = req.query.tags
     const subtag = req.query.subcategory
-    let findBlog = await blogsModel.find(
-      { isdeleted: false, isPublished: true, $or: [{ category: c_details }, { authodId: a_id }, { tag: { $in: [tags] } }, { subCategory: { $in: [subtag] } }] }
-
-    )
+    let findBlog = await blogsModel.find({isDeleted:false, isPublished:true, $or:[{authorId:a_id},{category:c_details},{tags:tags},{subcategory:subtag}]})
     if (!findBlog) res.status(404).send({ status: false, msg: "not found" })
     res.status(200).send({ status: true, msg: findBlog });
-  } catch (err) {
+}
+   catch (err) {
     res.status(500).send({ status: false, Error: err });
   }
 }
